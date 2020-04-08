@@ -13,20 +13,21 @@ import java.io.PrintWriter;
         urlPatterns ={"/LoginServlet"},
         initParams={
                 @WebInitParam(name = "user",value = "Priya"),
-                @WebInitParam(name = "password",value = "palak")
+                @WebInitParam(name = "password",value = "palak@123")
         }
 )
 
 
 public class LoginServlet extends HttpServlet {
     String validPattern="[A-Z]{1}[a-z]{2,}";
+    String validatePassword="[A-Z0-9a-z|@|#|!|&|*|$]{8,}";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String user = req.getParameter("user");
        String pwd = req.getParameter("pwd");
        String userID = getServletConfig().getInitParameter("user");
        String password =getServletConfig().getInitParameter("password");
-        if(userID.matches(validPattern) && userID.equals(user) && password.equals(pwd)){
+        if(userID.matches(validPattern) && userID.equals(user) && password.matches(validatePassword) && password.equals(pwd)){
             req.setAttribute("user",user);
             req.getRequestDispatcher("LogInSuccess.jsp").forward(req,resp);
         }else {
